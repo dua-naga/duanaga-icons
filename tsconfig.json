@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "ESNEXT",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "lib": ["ESNEXT", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
+    "declaration": true,
+
+    /* Bundler mode */
+    "moduleResolution": "Node",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue",
+  ],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

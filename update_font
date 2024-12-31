@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# URL of the CSS file containing the WOFF2 link
+CSS_URL="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0..1,0"
+
+# User agent to use for curl requests
+USER_AGENT="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
+
+# Download the CSS content
+CSS_CONTENT=$(curl -s -A "$USER_AGENT" "$CSS_URL")
+
+# Extract the WOFF2 URL using regex
+WOFF_URL=$(echo "$CSS_CONTENT" | grep -oP '(?<=url\().*?\.woff2(?=\))')
+
+# Destination file name
+OUTPUT_FILE="material-symbols-outlined.woff2"
+
+# Download the WOFF2 file using curl
+curl -A "$USER_AGENT" -o "$OUTPUT_FILE" "$WOFF_URL"
+
+mv $OUTPUT_FILE public/fonts/$OUTPUT_FILE
+
+# Print success message if download succeeds
+if [ $? -eq 0 ]; then
+        echo "Downloaded $OUTPUT_FILE successfully."
+else
+        echo "Failed to download $OUTPUT_FILE."
+fi

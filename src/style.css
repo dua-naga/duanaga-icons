@@ -1,0 +1,6 @@
+@import url(https://fonts.bunny.net/css?family=inter:400,500,600,700|zilla-slab:400,500,600,700);
+@import './styles/duanaga-icons.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
