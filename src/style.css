@@ -1,6 +1,15 @@
-@import url(https://fonts.bunny.net/css?family=inter:400,500,600,700|zilla-slab:400,500,600,700);
+@import url(https://fonts.bunny.net/css?family=inter:400,500,600,700);
 @import './styles/duanaga-icons.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    background-color: theme('colors.blue.100');
+    color: theme('colors.grey.100');
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}

@@ -1,14 +1,25 @@
 <script setup lang="ts">
-import { AppBlock, AppButton, AppDivider, FormInput } from 'lilasia-ui'
+import { AppBlock, AppButton, AppDivider, FormInput, FormSelect } from 'duanaga-ui'
 import { onMounted, ref } from 'vue'
 import Icon from './components/Icon.vue'
 import { computed } from 'vue'
 import IconMetadata from './api/Icon'
 
 const sizes = Array.from({ length: 96 / 4 }, (_, i) => (i + 1) * 4)
+const styles = [
+  {
+    label: 'Outlined',
+    value: false
+  },
+  {
+    label: 'Filled',
+    value: true
+  }
+]
 
 const search = ref()
 const selectedSize = ref(24)
+const selectedStyle = ref<(typeof styles)[0] | null>(null)
 const filled = ref(false)
 const icons = ref<string[]>([])
 const filteredIcons = ref<any[]>([])
@@ -25,6 +36,8 @@ const isNextDisabled = computed(() => {
 onMounted(async () => {
   await fetchIcons()
   paginateIcons()
+
+  selectedStyle.value = styles[0]
 })
 
 const fetchIcons = async () => {
@@ -78,6 +91,10 @@ const searchIcon = () => {
 const setIconName = (icon: string) => {
   search.value = icon
 }
+
+const handleStyleSelect = (option: (typeof styles)[0]) => {
+  filled.value = option.value
+}
 </script>
 
 <template>
@@ -91,31 +108,38 @@ const setIconName = (icon: string) => {
         </template>
 
         <div class="px-24 pb-24">
-          <div class="flex items-center gap-8">
-            <label for="sizes">
-              <select id="sizes" v-model="selectedSize">
-                <option v-for="(size, index) in sizes" :key="index" :value="size">
-                  {{ size }}
-                </option>
-              </select>
-            </label>
+          <div class="grid grid-cols-5 items-center gap-8">
+            <div class="col-span-1">
+              <FormSelect
+                v-model="selectedStyle"
+                :options="styles"
+                option-label="label"
+                placeholder="Style"
+                @update:model-value="handleStyleSelect"
+              />
+            </div>
 
-            <label for="filled">
-              <select id="filled" v-model="filled">
-                <option :value="false">Outlined</option>
-                <option :value="true">Filled</option>
-              </select>
-            </label>
+            <div class="col-span-1">
+              <FormSelect v-model="selectedSize" :options="sizes" placeholder="Size" />
+            </div>
 
-            <FormInput
-              id="icon"
-              v-model="search"
-              type="search"
-              placeholder="Search&hellip;"
-              class="w-full"
-              required
-              @keyup.enter="searchIcon"
-            />
+            <div class="col-span-3">
+              <FormInput
+                id="icon"
+                v-model="search"
+                type="search"
+                placeholder="Search&hellip;"
+                class="w-full"
+                required
+                @keyup.enter="searchIcon"
+              >
+                <template #prepend>
+                  <div class="flex items-center">
+                    <Icon name="search" size="20" />
+                  </div>
+                </template>
+              </FormInput>
+            </div>
           </div>
 
           <AppDivider class="my-16" />
